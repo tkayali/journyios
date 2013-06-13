@@ -1,0 +1,48 @@
+p {
+	margin: 0;
+}
+
+#dViewHeader {
+	margin: 5px;
+}
+
+#event img {
+	width: 100%;
+}
+
+#dUploadPhoto {
+	width: 100px;
+	height: 100px;
+	border: 1px dashed black;
+	margin-bottom: 12px;
+	margin-top: 5px;
+}
+
+.contentpane {
+	margin-bottom: 20px;
+}
+
+.title {
+	font-size: 26px;
+	display: inline-block;
+	margin-bottom: 8px;
+}
+
+.desc {
+	margin-top: 8px;
+}
+
+.center {
+	padding: 45px;
+}
+
+img.center {
+	margin:0 auto;
+	display:block;
+	width:100%;
+	padding:0;
+}
+
+.timeline-center {
+	text-align:center;
+}

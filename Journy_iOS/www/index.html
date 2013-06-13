@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Journy</title>
+
+		<!-- Meta -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+		<!-- Libraries -->
+		<script src="libs/jquery.js"></script>
+		<script src="js/jquery-mobile-config.js"></script>
+		<script src="libs/jquery.mobile.js"></script>
+		<script src="libs/underscore.js"></script>
+		<script src="libs/backbone.js"></script>
+
+		<!-- Style -->
+		<link rel="stylesheet" href="css/jquery.mobile.css" />
+		<link rel="stylesheet" href="css/main.css" />
+
+		<!-- Tests -->
+		<link rel="stylesheet" href="tests/qunit/qunit.css">
+		<script src="tests/qunit/qunit.js"></script>
+		<script src="tests/tests.js"></script>
+
+		<!-- Scripts -->
+		<script src="js/globals.js"></script>
+		<script src="js/router.js"></script>
+		<script src="js/models.js"></script>
+		<script src="js/collections.js"></script>
+		<script src="js/views.js"></script>
+		<script src="js/services.js"></script>
+
+	</head>
+	<body>
+
+		<!-- Header's begin -->
+		<script type="text/template" id="tmplHeaderHome">
+			<a href="#create/" data-icon="plus" data-theme="b" class="ui-btn-right route">Journy</a>
+			<h1>My Journys</h1>
+		</script>
+
+		<script type="text/template" id="tmplHeaderJourny">
+			<a href="#" data-icon="back" class="back">Back</a>
+			<h1><%= journy.escape('name') %></h1>
+			<a href="#create" data-icon="plus" data-theme="b" class="ui-btn-right">Entry</a>
+		</script>
+
+		<script type="text/template" id="tmplHeaderEdit">
+			<a href="#" data-icon="back" class="back">Back</a>
+			<h1><%= (edit) ? 'Edit Name' : 'Create Journy' %></h1>
+		</script>
+
+		<script type="text/template" id="tmplHeaderTimeline">
+			<a href="#journy/<%= journy.get('id') %>" data-icon="back" class="back">Back</a>
+			<h1><%= journy.escape('name') %> Timeline</h1>
+			<a href="#" data-icon="plus" data-theme="b" class="ui-btn-right">Entry</a>
+		</script>
+		<!-- Header's end -->
+
+		<script type="text/template" id="tmplHome">
+			<div data-role="content" id="dHomeContent">
+				<ul data-role="listview" data-inset="true" id="dHomeList">
+				</ul>
+			</div>
+		</script>
+
+		<script type="text/template" id="tmplHomeRow">
+			<li><a href="<%= '#journy/' + journy.id %>" data-journy-id="<%= journy.id %>" class="route editable"><%= journy.escape('name') %></a></li>
+		</script>
+
+		<script type="text/template" id="tmplEdit">
+			<div data-role="content" id="dEditContent">
+				<div class="title">Name:</div>
+				<% if (val) { %>
+					<input type="text" id="editedName" value="<%= val.get('name') %>"/>
+				<% } else { %>
+					<input type="text" id="newName" value=""/>
+				<% } %>
+				<input type="button" id="saveJourny" value="Save Journy"/>
+			</div>
+		</script>
+
+		<script type="text/template" id="tmplJourny">
+			<div data-role="content" id="dJournyContent">
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><div class="ui-bar" style="height:80px">
+							<img src="<%= journy.get('image') || 'http://www.videoinside.org/wp-content/themes/newsroom11/img/placeholder.png' %>" width="100%" />
+					</div></div>
+					<div class="ui-block-b"><div class="ui-bar" style="height:80px">
+						<p><%= journy.get('description') %></p>
+					</div></div>
+				</div>
+
+				<br/>
+				<br/>
+
+				<div class="ui-grid-a">
+
+					<div class="ui-block-a">
+						<div class="ui-bar timeline-center">
+							<a href="#journy/<%= journy.get("id") %>/timeline"><img class="center" src="images/timeline.png" /></a>
+							<h2>Timeline</h2>
+						</div>
+					</div>
+
+					<div class="ui-block-b">
+						<div class="ui-bar timeline-center">
+							<a href="#journy/<%= journy.get("id") %>/pictures"><img class="center" src="images/gallery.png" /></a>
+							<h2>Pictures</h2>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</script>
+
+		<script type="text/template" id="tmplTimeline">
+			<div data-role="content" id="dTimelineContent">
+					<ul data-role="listview" data-inset="true" id="dTimelineList">
+					</ul>
+			</div>
+		</script>
+
+		<script type="text/template" id="tmplTimelineRow">
+			<li>
+				<a href="#journy/<%= journyId %>/timeline/<%= entry.id %>" class="route">
+					<h2><%= entry.escape('name') %></h2>
+					<p><%= entry.get("description") %></p>
+				</a>
+				</li>
+		</script>
+
+		<script type="text/template">
+			<!-- Italy WorldCup -->
+			<div data-role="page" id="worldcup">
+				<div data-role="header">
+					<a href="#index" data-icon="back">Back</a>
+					<h1>World Cup</h1>
+					<a href="#dCreateEntry" data-icon="plus" data-theme="b">Entry</a>
+				</div><!-- /header -->
+
+				<div data-role="content">
+					<ul data-role="listview" data-inset="true">
+						<li><a href="#event">Grab Tickets</a></li>
+						<li><a href="#event">Watched Sick Game</a></li>
+					</ul>
+				</div><!-- /content -->
+			</div><!-- /page italy -->
+
+
+
+			<!-- Italy Colosseum -->
+			<div data-role="page" id="event">
+				<div data-role="header">
+					<a href="#italy" data-icon="back">Back</a>
+					<h1>Colosseum</h1>
+					<a href="#dCreateEntry" data-icon="edit" data-theme="b">Edit</a>
+				</div><!-- /header -->
+
+				<div data-role="content">
+					<div id="dEventPicture" class="contentpane">
+						<span class="title">Picture</span>
+						<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/800px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg" height="120px"/>
+						<p class="desc">We went to the colosseum and it was the best thing ever.</p>
+					</div>
+
+					<div id="dEventMap" class="contentpane">
+						<span class="title">Map</span>
+						<img src="http://4.bp.blogspot.com/_7ZYqYi4xigk/TEid8dKoPJI/AAAAAAAAGgI/Sxn7bAuTwAc/s1600/colosseum.PNG" height="120px"/>
+					</div>
+
+					<div id="dEventNote"class="contentpane">
+						<span class="title">Notes</span>
+						<p>I thought this was the most overrated experience ever, but we did see Gladiators dressed up as Storm Troopers. </p>
+					</div>
+
+				</div><!-- /content -->
+			</div><!-- /page italy -->
+
+			<div data-role="page" id="dCreateEntry">
+				<div data-role="header">
+					<a href="#italy" data-icon="back">Back</a>
+					<h1>New Timeline Event</h1>
+					<a href="#event" data-icon="save">Save</a>
+				</div><!-- /header -->
+
+				<div data-role="content">
+					<div class="contentpane">
+						<div class="title">New Title</div>
+						<input type="text" name="name" id="basic" value=""/>
+					</div>
+
+					<div class="contentpane">
+						<div class="title">New Video/Photo</div>
+						<div id="dUploadPhoto"><div class="center">+</div></div>
+					</div>
+
+					<div class="contentpane">
+						<div class="title">New Note</div>
+						<input type="text" name="name" id="basic" value=""/>
+					</div>
+				</div><!-- /content -->
+			</div><!-- /page italy -->
+
+			<div data-role="page" id="dCreateJourny">
+				<div data-role="header">
+					<a href="#italy" data-icon="back">Back</a>
+					<h1>New Journy</h1>
+					<a href="#italy" data-icon="save">Save</a>
+				</div><!-- /header -->
+
+				<div data-role="content">
+					<div class="title">New Title</div>
+					<input type="text" name="name" id="basic" value=""  />
+				</div><!-- /content -->
+			</div><!-- /page italy -->
+		</script>
+
+	</body>
+</html>

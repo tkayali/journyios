@@ -1,0 +1,37 @@
+{
+		"status": "success",
+		"data": {
+				"journys": [
+						{
+								"id": 1,
+								"name": "Mt Everest",
+								"description": "This was quite the challenge"
+						},
+						{
+								"id": 2,
+								"name": "Machu Picchu",
+								"description": "This was neat"
+						},
+						{
+								"id": 3,
+								"name": "Timbuktu",
+								"description": "Was quite cool"
+						},
+						{
+								"id": 4,
+								"name": "Mocha",
+								"description": "The place in Yemen where the bean comes from"
+						},
+						{
+								"id": 5,
+								"name": "Starke",
+								"description": "Who wouldn't want to take a trip to Starke Florida"
+						},
+						{
+								"id": 6,
+								"name": "''&@T#()!1358:`",
+								"description": "UM..."
+						}
+				]
+		}
+}
